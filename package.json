@@ -1,0 +1,28 @@
+{
+  "name": "lynk",
+  "version": "1.0.0",
+  "description": "A barebones Electron and Flask application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:css": "tailwindcss -i ./static/tailwind.css -o ./static/output.css --watch",
+    "start-flask": "python app.py",
+    "start-all": "concurrently \"npm run start-flask\" \"npm run start\"",
+    "dev": "node start.js"
+  },
+  "keywords": [
+    "electron",
+    "flask",
+    "desktop",
+    "app"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "concurrently": "^8.2.2",
+    "electron": "^25.9.8",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.5"
+  }
+}
