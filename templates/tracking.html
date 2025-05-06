@@ -3,70 +3,248 @@
   {% include 'base.html' %}
   <body class="min-h-screen flex overflow-y-auto">
     <div class="flex w-full h-screen">
-        {% include 'sidebar.html' %}
-        <div class="flex-1 overflow-y-auto p-8 md:p-12">
+      {% include 'sidebar.html' %}
+      <div class="flex-1 overflow-y-auto p-8 md:p-12">
 
-            <div class="max-w-4xl mx-auto">
-                <div class="flex justify-between items-center mb-8">
-                  <h1 class="text-3xl font-semibold">Application Tracking</h1>
-                  <div class="flex gap-2">
-                    <button class="flex items-center text-sm px-3 py-1 border rounded hover:bg-gray-100">
-                      <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v6h6M20 20v-6h-6"/></svg>
-                      Reload
-                    </button>
-                    <button class="flex items-center text-sm px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
-                      <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5l2-2h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"/></svg>
-                      Save
-                    </button>
-                  </div>
+        <div id="editApp_modal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 items-center justify-center bg-gray-800/50">
+            <div class="relative p-3 w-full max-w-xl max-h-full m-auto">
+                <div class="relative bg-white rounded-lg">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-900">
+                                Edit Application Alias
+                            </h3>
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="default-modal">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <p class="text-gray-500 text-sm mt-3">Create a friendly name for this application to make it easier to identify in reports and dashboards.</p>
+                        <div class="mt-6">
+                            <label for="appName" class="block mb-2 text-sm font-medium text-gray-900">Application Process</label>
+                            <input id="appName" class="flex w-full rounded-md border border-input px-3 py-2 ring-offset-background ring-black file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 font-mono text-xs h-9 bg-muted/50" readonly="" value="code.exe">
+
+                            <label for="appAlias" class="block mb-2 text-sm font-medium text-gray-900 mt-4">Display Name / Alias</label>
+                            <input id="appAlias" class="flex w-full rounded-md border border-input px-3 py-2 ring-offset-background ring-black file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-xs h-9 bg-muted/50" value="Visual Studio Code">
+                            <span class="text-xs text-gray-500 mt-1">Leave blank to use the original process name</span>
+
+                            <label for="appIconURL" class="block mb-2 text-sm font-medium text-gray-900 mt-4">Icon URL</label>
+                            <input id="appIconURL" class="flex w-full rounded-md border border-input px-3 py-2 ring-offset-background ring-black file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-xs h-9 bg-muted/50">
+                            <span class="text-xs text-gray-500 mt-1">This will convert the URL into a base64-encoded image, leave empty for nothing</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-6">
+                            <button onclick="resetApp()" type="button" class="flex justify-between items-center bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw h-3 w-3 mr-2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                                Reset
+                            </button>
+                            <button onclick="saveApp()" type="button" class="flex justify-between items-center text-white bg-black hover:bg-black focus:ring-4 focus:outline-none focus:ring-black font-medium rounded-lg text-sm px-3 py-1.5 text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-save h-3 w-3 mr-2"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"></path><path d="M7 3v4a1 1 0 0 0 1 1h7"></path></svg>
+                                Save
+                            </button>
+
+                        </div>
+                    </div>
                 </div>
-              
-                <p class="text-gray-500 mb-6">Toggle tracking for any listed application below</p>
-              
-                <div class="relative mb-6">
-                  <input id="searchInput" type="text" onkeyup="filterApps()" placeholder="Search applications..." class="pl-10 pr-4 py-2 border rounded w-full">
-                  <svg class="w-4 h-4 absolute left-3 top-2.5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/></svg>
-                </div>
-              
-                <div class="space-y-3">
-                  <div class="app-entry flex justify-between items-center border-b pb-2">
-                    <div class="app-name font-mono text-sm">code.exe</div>
-                    <label for="codeTracking" class="relative block h-8 w-14 rounded-full bg-gray-300 transition-colors [-webkit-tap-highlight-color:_transparent] peer-checked:bg-black">
-                      <input type="checkbox" id="codeTracking" class="peer sr-only" checked />
-                      <span class="absolute inset-y-0 start-0 m-1 size-6 rounded-full bg-white transition-[inset-inline-start] peer-checked:start-6"></span>
-                    </label>
-                  </div>
-              
-                  <div class="app-entry flex justify-between items-center border-b pb-2">
-                    <div class="app-name font-mono text-sm">spotify.exe</div>
-                    <label for="spotifyTracking" class="relative block h-8 w-14 rounded-full bg-gray-300 transition-colors [-webkit-tap-highlight-color:_transparent] peer-checked:bg-black">
-                      <input type="checkbox" id="spotifyTracking" class="peer sr-only" />
-                      <span class="absolute inset-y-0 start-0 m-1 size-6 rounded-full bg-white transition-[inset-inline-start] peer-checked:start-6"></span>
-                    </label>
-                  </div>
-              
-                  <div class="app-entry flex justify-between items-center border-b pb-2">
-                    <div class="app-name font-mono text-sm">chrome.exe</div>
-                    <label for="chromeTracking" class="relative block h-8 w-14 rounded-full bg-gray-300 transition-colors [-webkit-tap-highlight-color:_transparent] peer-checked:bg-black">
-                      <input type="checkbox" id="chromeTracking" class="peer sr-only" checked />
-                      <span class="absolute inset-y-0 start-0 m-1 size-6 rounded-full bg-white transition-[inset-inline-start] peer-checked:start-6"></span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              
-              <script>
-                function filterApps() {
-                  const input = document.getElementById('searchInput').value.toLowerCase();
-                  const apps = document.querySelectorAll('.app-entry');
-                  apps.forEach(app => {
-                    const name = app.querySelector('.app-name').textContent.toLowerCase();
-                    app.style.display = name.includes(input) ? '' : 'none';
-                  });
-                }
-              </script>
-            
+            </div>
         </div>
+
+        <div class="max-w-4xl mx-auto">
+          <div class="flex justify-between items-center">
+            <h1 class="text-3xl font-medium tracking-tight">Tracking</h1>
+            <div class="flex gap-2">
+              <button onclick="location.reload();" class="h-8 text-xs border rounded px-2 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-cw h-3 w-3 mr-2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+                Reload
+              </button>
+              <button id="saveBtn" class="h-8 text-xs bg-black text-white rounded px-2 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-save h-3 w-3 mr-2"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"></path><path d="M7 3v4a1 1 0 0 0 1 1h7"></path></svg>
+                Save
+              </button>
+            </div>
+          </div>
+          <p class="text-gray-500 mb-6">Configure which applications to track</p>
+          <div class="relative mb-6">
+            <input id="searchInput" type="text" onkeyup="filterApps()" placeholder="Search applications..." class="pl-10 pr-4 py-2 border rounded-xl w-full">
+            <svg class="w-4 h-4 absolute left-3 top-2.5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/></svg>
+          </div>
+          <div id="appList" class="space-y-3"></div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
+<script>
+
+  let trackingData = {{ apps_data | tojson }};
+  const appList = document.getElementById('appList');
+
+  trackingData = Object.fromEntries(Object.entries(trackingData).filter(([key]) => key.trim() !== ''));
+
+  function renderApps() {
+    appList.innerHTML = '';
+    
+    Object.keys(trackingData).forEach(key => {
+
+      const app = trackingData[key];
+      const sanitizedKey = key.replace(/\s+/g, '').toLowerCase().replace(/[.]/g, '-');
+      const id = `toggle-${sanitizedKey}`;
+      const isChecked = app.tracking === "true" ? 'checked' : '';
+      const stateText = app.tracking === "true" ? 'Tracking' : 'Not Tracking';
+
+      const entry = document.createElement('div');
+      entry.className = 'app-entry flex justify-between items-center border-b pb-2';
+
+      name = "";
+
+      if (key !== app.alias){
+        name = key;
+      }
+
+      entry.innerHTML = `
+        <div class="flex items-center gap-2">
+          <button onclick="editApp('${key}')" class="font-mono text-sm hover:text-primary flex items-center gap-1 group">
+            <span class="app-name">${app.alias}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path><path d="m15 5 4 4"></path></svg>
+          </button>
+          <span class="text-[10px] text-muted-foreground font-mono">${name}</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <span id="${id}-state" class="text-sm text-gray-600">${stateText}</span>
+          <label for="${id}" class="relative block h-8 w-14 rounded-full bg-gray-300 transition-colors [-webkit-tap-highlight-color:_transparent]">
+            <input type="checkbox" id="${id}" class="peer sr-only" ${isChecked} />
+            <span class="absolute inset-y-0 start-0 m-1 size-6 rounded-full bg-white transition-[inset-inline-start] peer-checked:start-6 peer-checked:bg-white"></span>
+          </label>
+        </div>
+      `;
+
+      appList.appendChild(entry);
+
+      const toggle = entry.querySelector(`#${id}`);
+
+      if (toggle) {
+        toggle.addEventListener('change', () => {
+          trackingData[key].tracking = toggle.checked ? "true" : "false";
+          document.getElementById(`${id}-state`).textContent = toggle.checked ? 'Tracking' : 'Not Tracking';
+          const toggleLabel = toggle.parentElement;
+          toggleLabel.classList.toggle('bg-black', toggle.checked);
+          toggleLabel.classList.toggle('bg-gray-300', !toggle.checked);
+        });
+      } else {
+        console.error(`Checkbox with id ${id} not found.`);
+      }
+
+      setTimeout(() => {
+        const toggleLabel = entry.querySelector(`label[for="${id}"]`);
+        toggleLabel.classList.toggle('bg-black', app.tracking === "true");
+        toggleLabel.classList.toggle('bg-gray-300', app.tracking !== "true");
+      }, 0);
+    });
+  }
+
+  function filterApps() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const apps = document.querySelectorAll('.app-entry');
+    apps.forEach(app => {
+      const name = app.querySelector('.app-name').textContent.toLowerCase();
+      app.style.display = name.includes(input) ? '' : 'none';
+    });
+  }
+
+
+  document.getElementById('saveBtn').addEventListener('click', () => {
+    const url = '/tracking';
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(trackingData),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      location.reload();
+    })
+    .catch(error => {
+      console.error("Error saving data:", error);
+    });
+  });
+
+  function editApp(appName) {
+    console.log("Edit app:", appName);
+    const app = trackingData[appName];
+    console.log("App data:", app);
+    document.getElementById('appName').value = appName;
+    document.getElementById('appAlias').value = app.alias;
+    document.getElementById('appIconURL').value = app.icon_url;
+    const modal = document.getElementById('editApp_modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    modal.setAttribute('aria-hidden', 'false');
+    modal.setAttribute('tabindex', '0');
+    modal.focus();
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal || event.target.closest('[data-modal-hide]')) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        modal.setAttribute('aria-hidden', 'true');
+        modal.removeAttribute('tabindex');
+      }
+    });
+  }
+
+  function updateApp(appName, newAlias, iconUrl) {
+      fetch('/api/update-app', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              app_name: appName,
+              alias: newAlias,
+              icon_url: iconUrl
+          })
+      })
+      .then(response => response.json())
+      .then(data => {
+          console.log('Alias update response:', data);
+      })
+      .catch(error => {
+          console.error('Error updating alias:', error);
+      });
+  }
+
+  function saveApp() {
+    const appName = document.getElementById('appName').value;
+    const appAlias = document.getElementById('appAlias').value;
+    const appIconURL = document.getElementById('appIconURL').value;
+
+    if (appIconURL) {
+      updateApp(appName, appAlias, appIconURL.toString());
+      window.location.reload();
+    } else if (appAlias) {
+      updateApp(appName, appAlias, "");
+      window.location.reload();
+    } else {
+      updateApp(appName, appAlias, "");
+      window.location.reload();
+    }
+
+  }
+
+  function resetApp() {
+    const appName = document.getElementById('appName').value;
+    updateApp(appName, appName, "");
+    window.location.reload();
+  }
+
+  renderApps();
+  
+</script>

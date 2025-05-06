@@ -5,6 +5,17 @@ const http = require('http');
 
 const isWin = platform() === 'win32';
 
+// Start Electron immediately
+const electronProcess = spawn(
+  isWin ? 'npx.cmd' : 'npx',
+  ['electron', '.'],
+  { 
+    stdio: 'inherit',
+    shell: true
+  }
+);
+
+// Start Flask in the background
 const flaskProcess = spawn(
   isWin ? 'python' : 'python3', 
   ['app.py'], 
@@ -14,48 +25,32 @@ const flaskProcess = spawn(
   }
 );
 
-const checkFlaskServer = (retries = 0, maxRetries = 30) => {
-  if (retries >= maxRetries) {
-    flaskProcess.kill();
+// Handle Electron process events
+electronProcess.on('close', (code) => {
+  console.log('Electron process closed with code:', code);
+  flaskProcess.kill();
+  process.exit();
+});
+
+electronProcess.on('error', (err) => {
+  console.error('Electron process error:', err);
+  flaskProcess.kill();
+  process.exit(1);
+});
+
+// Handle Flask process events
+flaskProcess.on('error', (err) => {
+  console.error('Flask process error:', err);
+});
+
+flaskProcess.on('close', (code) => {
+  console.log('Flask process closed with code:', code);
+  // If Flask closes unexpectedly, kill Electron too
+  if (code !== 0) {
+    electronProcess.kill();
     process.exit(1);
-    return;
   }
-  
-  http.get('http://127.0.0.1:5001/health', (res) => {
-    if (res.statusCode === 200) {
-      startElectron();
-    } else {
-      setTimeout(() => checkFlaskServer(retries + 1, maxRetries), 1000);
-    }
-  }).on('error', (err) => {
-    setTimeout(() => checkFlaskServer(retries + 1, maxRetries), 1000);
-  });
-};
-
-const startElectron = () => {
-  const electronProcess = spawn(
-    isWin ? 'npx.cmd' : 'npx',
-    ['electron', '.'],
-    { 
-      stdio: 'inherit',
-      shell: true
-    }
-  );
-
-  electronProcess.on('close', (code) => {
-    flaskProcess.kill();
-    process.exit();
-  });
-
-  electronProcess.on('error', (err) => {
-    flaskProcess.kill();
-    process.exit(1);
-  });
-};
-
-setTimeout(() => {
-  checkFlaskServer();
-}, 3000);
+});
 
 process.on('SIGINT', () => {
   flaskProcess.kill();

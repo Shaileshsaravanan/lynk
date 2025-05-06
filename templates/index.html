@@ -3,121 +3,131 @@
   {% include 'base.html' %}
   <body class="min-h-screen flex overflow-y-auto">
     <div class="flex w-full h-screen">
-        {% include 'sidebar.html' %}
-        <div class="flex-1 overflow-y-auto p-8 md:p-12">
-
-            <div class="flex flex-col gap-2 mb-12">
-                <h1 class="text-3xl font-medium tracking-tight">Dashboard</h1>
-                <p class="text-sm text-gray-500">Your application usage in real-time</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="md:col-span-2 space-y-8">
-                    <div class="space-y-6">
-                        <div class="flex justify-between items-center">
-                            <h2 class="text-sm font-medium">Current Session</h2>
-                        </div>
-
-                        <div class="flex items-center gap-6 p-6 bg-gray-100 rounded-lg">
-                            <div class="bg-black text-white p-3 rounded-full">🕒</div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-center mb-2">
-                                    <div>
-                                        <div class="text-xs text-gray-500">Currently using</div>
-                                        <div id="currentApp" class="text-lg font-medium"></div>
-                                    </div>
-                                    <div id="currentTime" class="text-2xl font-mono font-light"></div>
-                                </div>
-                                <div class="w-full bg-gray-200 h-1 rounded overflow-hidden">
-                                    <div id="progressBar" class="h-full bg-blue-500 w-0"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="space-y-6">
-                        <div class="flex justify-between items-center">
-                            <h2 class="text-sm font-medium">Today's Usage</h2>
-                            <a href="/tracking" class="text-xs text-blue-600 flex items-center gap-1 hover:underline">View All →</a>
-                        </div>
-                        <div id="appUsage" class="space-y-4"></div>
-                    </div>
-                </div>
-
-                <div class="space-y-8">
-                    <div class="space-y-6">
-                        <h2 class="text-sm font-medium">Summary</h2>
-                        <div class="space-y-4 text-sm">
-                            <div class="flex justify-between items-center py-2 border-b">
-                                <span class="text-gray-500">Total tracked time</span>
-                                <span id="totalTrackedTime" class="font-mono"></span>
-                            </div>
-                            <div class="flex justify-between items-center py-2 border-b">
-                                <span class="text-gray-500">Active applications</span>
-                                <span id="activeApplicationsCount"></span>
-                            </div>
-                            <div class="flex justify-between items-center py-2 border-b">
-                                <span class="text-gray-500">Most used app</span>
-                                <span id="mostUsedApp"></span>
-                            </div>
-                            <div class="flex justify-between items-center py-2">
-                                <span class="text-gray-500">Last sync</span>
-                                <span class="text-xs">10:45 AM</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      {% include 'sidebar.html' %}
+      <div class="flex-1 overflow-y-auto p-8 md:p-12">
+        <div class="flex flex-col gap-2 mb-12">
+          <h1 class="text-3xl font-medium tracking-tight">Dashboard</h1>
+          <p class="text-sm text-gray-500">Your application usage in real-time</p>
         </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="md:col-span-2 space-y-8">
+            <div class="space-y-6">
+              <div class="flex justify-between items-center">
+                <h2 class="text-sm font-medium">Current Session</h2>
+              </div>
+              <div class="flex items-center gap-6 p-6 bg-gray-100 rounded-lg">
+                <div id="appIcon">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 rounded-xl" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+                <div class="flex-1">
+                  <div class="flex justify-between items-center mb-2">
+                    <div>
+                      <div class="text-xs text-gray-500">Currently using</div>
+                      <div id="currentApp" class="text-lg font-medium"></div>
+                    </div>
+                    <div id="currentTime" class="text-2xl font-mono font-light"></div>
+                  </div>
+                  <div class="w-full bg-gray-200 h-1 rounded overflow-hidden">
+                    <div id="progressBar" class="h-full bg-blue-500 w-0"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-6">
+              <div class="flex justify-between items-center">
+                <h2 class="text-sm font-medium">Today's Usage</h2>
+                <a href="/tracking" class="text-xs flex items-center gap-1 hover:underline">View All →</a>
+              </div>
+              <div id="appUsage" class="space-y-4"></div>
+            </div>
+          </div>
+          <div class="space-y-8">
+            <div class="space-y-6">
+              <h2 class="text-sm font-medium">Summary</h2>
+              <div class="space-y-4 text-sm">
+                <div class="flex justify-between items-center py-2 border-b">
+                  <span class="text-gray-500">Total tracked time</span>
+                  <span id="totalTrackedTime" class="font-mono"></span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b">
+                  <span class="text-gray-500">Active applications</span>
+                  <span id="activeApplicationsCount"></span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b">
+                  <span class="text-gray-500">Most used app</span>
+                  <span id="mostUsedApp"></span>
+                </div>
+                <div class="flex justify-between items-center py-2">
+                  <span class="text-gray-500">Last sync</span>
+                  <span class="text-xs">10:45 AM</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
-<script>
 
-    const socket = io('http://localhost:5001');
-    const currentApp = document.getElementById('currentApp');
-    const currentTime = document.getElementById('currentTime');
-    const totalTrackedTime = document.getElementById('totalTrackedTime');
-    const activeApplicationsCount = document.getElementById('activeApplicationsCount');
-    const mostUsedApp = document.getElementById('mostUsedApp');
-  
-    let currentAppName = '';
-    let currentAppUsageTime = { hours: 0, minutes: 0, seconds: 0 };
-    let timerInterval;
-    let totalTime = { hours: 0, minutes: 0, seconds: 0 };
-    let activeApps = new Set();
-  
-    function calculateUsagePercentage(usageData, appName) {
-      let totalSeconds = 0;
-      let appSeconds = 0;
-  
-      for (let app in usageData) {
-        const time = parseUsageTime(usageData[app]);
-        const seconds = time.hours * 3600 + time.minutes * 60 + time.seconds;
-        totalSeconds += seconds;
-        if (app === appName) appSeconds = seconds;
-      }
-  
-      return totalSeconds ? Math.round((appSeconds / totalSeconds) * 100) : 0;
+<script>
+  const socket = io('http://localhost:5002');
+  const currentApp = document.getElementById('currentApp');
+  const currentTime = document.getElementById('currentTime');
+  const totalTrackedTime = document.getElementById('totalTrackedTime');
+  const activeApplicationsCount = document.getElementById('activeApplicationsCount');
+  const mostUsedApp = document.getElementById('mostUsedApp');
+  let currentAppName = '';
+  let currentAppUsageTime = { hours: 0, minutes: 0, seconds: 0 };
+  let timerInterval;
+  let totalTime = { hours: 0, minutes: 0, seconds: 0 };
+  let apps_data = {};
+
+  function calculateUsagePercentage(usageData, appName) {
+    let totalSeconds = 0;
+    let appSeconds = 0;
+    for (let app in usageData) {
+      const time = parseUsageTime(usageData[app]);
+      const seconds = time.hours * 3600 + time.minutes * 60 + time.seconds;
+      totalSeconds += seconds;
+      if (app === appName) appSeconds = seconds;
     }
-  
-    function today_usage(usageData) {
-      const appUsageContainer = document.getElementById('appUsage');
-      appUsageContainer.innerHTML = '';
-      const sortedApps = Object.keys(usageData).sort((a, b) => {
-        const aTime = parseUsageTime(usageData[a]);
-        const bTime = parseUsageTime(usageData[b]);
-        return (bTime.hours * 3600 + bTime.minutes * 60 + bTime.seconds) - (aTime.hours * 3600 + aTime.minutes * 60 + aTime.seconds);
-      });
-  
-      let mostUsed = { app: "", time: 0 };
-      let activeAppCount = 0;
-  
-      sortedApps.forEach(app => {
-        const usage = usageData[app];
-        const percentage = calculateUsagePercentage(usageData, app);
-        const appElement = document.createElement('div');
-        appElement.className = 'space-y-2';
+    return totalSeconds ? Math.round((appSeconds / totalSeconds) * 100) : 0;
+  }
+
+  function today_usage(usageData) {
+    const appUsageContainer = document.getElementById('appUsage');
+    appUsageContainer.innerHTML = '';
+    const sortedApps = Object.keys(usageData).sort((a, b) => {
+      const aTime = parseUsageTime(usageData[a]);
+      const bTime = parseUsageTime(usageData[b]);
+      return (bTime.hours * 3600 + bTime.minutes * 60 + bTime.seconds) - (aTime.hours * 3600 + aTime.minutes * 60 + aTime.seconds);
+    });
+    let mostUsed = { app: "", time: 0 };
+    let activeAppCount = 0;
+    sortedApps.forEach(app => {
+
+      const usage = usageData[app];
+      const percentage = calculateUsagePercentage(usageData, app);
+      const appElement = document.createElement('div');
+      appElement.className = 'space-y-2';
+      if (apps_data[app]?.icon) {
+        appElement.innerHTML = `
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2"><div class="text-sm">${app}</div>
+              <img class="h-4 w-4 rounded-sm" src="data:image/png;base64,${apps_data[app].icon}" alt="${app}"/>
+            </div>
+            <div class="text-xs font-mono">${usage}
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="h-1 bg-gray-200 rounded w-full">
+              <div class="bg-black h-full rounded" style="width: ${percentage}%;"></div>
+            </div>
+            <span class="text-xs text-gray-500 w-7">${percentage}%</span>
+          </div>
+        `;
+      } else {
         appElement.innerHTML = `
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -132,96 +142,93 @@
             <span class="text-xs text-gray-500 w-7">${percentage}%</span>
           </div>
         `;
-        appUsageContainer.appendChild(appElement);
-  
-        const usageTime = parseUsageTime(usage);
-        const totalUsageTimeInSeconds = usageTime.hours * 3600 + usageTime.minutes * 60 + usageTime.seconds;
-  
-        if (totalUsageTimeInSeconds > mostUsed.time) {
-          mostUsed.app = app;
-          mostUsed.time = totalUsageTimeInSeconds;
-        }
-  
-        if (totalUsageTimeInSeconds > 0) activeAppCount++;
-      });
-  
-      mostUsedApp.textContent = mostUsed.app;
-      activeApplicationsCount.textContent = activeAppCount;
-    }
-  
-    socket.on('app_switch', (data) => {
-      const app = data.app;
-      const usage = data.usage[app] || "0h 0m 0s";
-      today_usage(data.usage);
-      const parsedTime = parseUsageTime(usage);
+      }
       
-      currentAppName = app;
-      currentAppUsageTime = parsedTime;
-  
-      currentApp.textContent = app;
-      currentTime.textContent = formatTime(currentAppUsageTime);
-  
-      totalTime = { hours: 0, minutes: 0, seconds: 0 };
-      for (let app in data.usage) {
-        const usageTime = parseUsageTime(data.usage[app]);
-        totalTime.hours += usageTime.hours;
-        totalTime.minutes += usageTime.minutes;
-        totalTime.seconds += usageTime.seconds;
+      if (app) {
+        appUsageContainer.appendChild(appElement);
       }
-      normalizeTime(totalTime);
-  
-      totalTrackedTime.textContent = formatTime(totalTime);
-  
-      if (timerInterval) clearInterval(timerInterval);
-      timerInterval = setInterval(updateTime, 1000);
+      const usageTime = parseUsageTime(usage);
+      const totalUsageTimeInSeconds = usageTime.hours * 3600 + usageTime.minutes * 60 + usageTime.seconds;
+      if (totalUsageTimeInSeconds > mostUsed.time) {
+        mostUsed.app = app;
+        mostUsed.time = totalUsageTimeInSeconds;
+      }
+      if (totalUsageTimeInSeconds > 0) activeAppCount++;
     });
-  
-    function parseUsageTime(usage) {
-      const regex = /(\d+)h (\d+)m (\d+)s/;
-      const match = usage.match(regex);
-      if (match) {
-        return {
-          hours: parseInt(match[1]),
-          minutes: parseInt(match[2]),
-          seconds: parseInt(match[3]),
-        };
-      }
-      return { hours: 0, minutes: 0, seconds: 0 };
+    mostUsedApp.textContent = mostUsed.app;
+    activeApplicationsCount.textContent = activeAppCount;
+  }
+
+  socket.on('ping', (data) => {
+    const app = data.app;
+    const usage = data.usage[app] || "0h 0m 0s";
+    apps_data = data.apps_data;
+    today_usage(data.usage);
+    const parsedTime = parseUsageTime(usage);
+    const icon = apps_data[app]?.icon;
+    if (icon) {
+      document.getElementById("appIcon").innerHTML = `<img class="h-12 rounded-lg" src="data:image/png;base64,${icon}" alt="${app}"/>`;
+    } else {
+      document.getElementById("appIcon").innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
     }
-  
-    function formatTime(time) {
-      return `${time.hours}h ${time.minutes}m ${time.seconds}s`;
+    currentAppName = app;
+    currentAppUsageTime = parsedTime;
+    currentApp.textContent = app;
+    currentTime.textContent = formatTime(currentAppUsageTime);
+    totalTime = { hours: 0, minutes: 0, seconds: 0 };
+    for (let app in data.usage) {
+      const usageTime = parseUsageTime(data.usage[app]);
+      totalTime.hours += usageTime.hours;
+      totalTime.minutes += usageTime.minutes;
+      totalTime.seconds += usageTime.seconds;
     }
-  
-    function normalizeTime(time) {
-      if (time.seconds >= 60) {
-        time.minutes += Math.floor(time.seconds / 60);
-        time.seconds %= 60;
-      }
-      if (time.minutes >= 60) {
-        time.hours += Math.floor(time.minutes / 60);
-        time.minutes %= 60;
-      }
+    normalizeTime(totalTime);
+    totalTrackedTime.textContent = formatTime(totalTime);
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(updateTime, 1000);
+  });
+
+  function parseUsageTime(usage) {
+    const regex = /(\d+)h (\d+)m (\d+)s/;
+    const match = usage.match(regex);
+    if (match) {
+      return {
+        hours: parseInt(match[1]),
+        minutes: parseInt(match[2]),
+        seconds: parseInt(match[3]),
+      };
     }
-  
-    function updateTime() {
-      currentAppUsageTime.seconds++;
-  
-      if (currentAppUsageTime.seconds >= 60) {
-        currentAppUsageTime.seconds = 0;
-        currentAppUsageTime.minutes++;
-      }
-  
-      if (currentAppUsageTime.minutes >= 60) {
-        currentAppUsageTime.minutes = 0;
-        currentAppUsageTime.hours++;
-      }
-  
-      currentTime.textContent = formatTime(currentAppUsageTime);
-  
-      totalTime.seconds++;
-      normalizeTime(totalTime);
-      totalTrackedTime.textContent = formatTime(totalTime);
+    return { hours: 0, minutes: 0, seconds: 0 };
+  }
+
+  function formatTime(time) {
+    return `${time.hours}h ${time.minutes}m ${time.seconds}s`;
+  }
+
+  function normalizeTime(time) {
+    if (time.seconds >= 60) {
+      time.minutes += Math.floor(time.seconds / 60);
+      time.seconds %= 60;
     }
-  
+    if (time.minutes >= 60) {
+      time.hours += Math.floor(time.minutes / 60);
+      time.minutes %= 60;
+    }
+  }
+
+  function updateTime() {
+    currentAppUsageTime.seconds++;
+    if (currentAppUsageTime.seconds >= 60) {
+      currentAppUsageTime.seconds = 0;
+      currentAppUsageTime.minutes++;
+    }
+    if (currentAppUsageTime.minutes >= 60) {
+      currentAppUsageTime.minutes = 0;
+      currentAppUsageTime.hours++;
+    }
+    currentTime.textContent = formatTime(currentAppUsageTime);
+    totalTime.seconds++;
+    normalizeTime(totalTime);
+    totalTrackedTime.textContent = formatTime(totalTime);
+  }
 </script>

@@ -1,7 +1,8 @@
 module.exports = {
   content: [
-    './templates/**/*.html',    // Flask templates
-    './static/**/*.js'          // Your JS if any
+    './templates/**/*.html',   
+    './static/**/*.js',
+    './*.html'
   ],
   theme: {
     extend: {},
