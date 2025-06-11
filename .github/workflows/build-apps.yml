@@ -47,7 +47,7 @@ jobs:
         run: npm run make
 
       - name: Upload Electron release artifact (windows)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: electron-release-windows
           path: electron/out/make/**/win-unpacked/**
@@ -92,7 +92,7 @@ jobs:
         run: npm run make
 
       - name: Upload Electron release artifact (mac)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: electron-release-macos
           path: electron/out/make/**/mac/**
@@ -139,7 +139,7 @@ jobs:
         run: npm run make
 
       - name: Upload Electron release artifact (linux)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: electron-release-linux
           path: electron/out/make/**/linux/**
