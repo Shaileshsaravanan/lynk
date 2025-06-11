@@ -1,42 +1,50 @@
-name: Build Python Apps + Electron Packages
+name: Build Apps
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
 
 jobs:
-  build-windows:
-    runs-on: windows-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: ['18']
+        python-version: ['3.13']
 
-      - name: Setup Python 3.13
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.13
+          python-version: ${{ matrix.python-version }}
 
       - name: Install Python dependencies
+        working-directory: py
         run: |
           python -m pip install --upgrade pip
+          pip install -r requirements.txt
           pip install pyinstaller
 
-      - name: Build Python app with spec
-        working-directory: python
-        run: |
-          pyinstaller --clean --noconfirm track.spec
+      - name: Build Python app
+        working-directory: py
+        run: pyinstaller --clean --noconfirm track.spec
 
-      - name: Copy built executable to Electron binaries (windows)
+      - name: Copy binaries to Electron
         run: |
-          mkdir -p ../electron/binaries/win
-          copy dist\\track.exe ..\\electron\\binaries\\win\\
+          if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then PLATFORM=linux; fi
+          if [[ "${{ matrix.os }}" == "macos-latest" ]]; then PLATFORM=mac; fi
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then PLATFORM=win; fi
+          mkdir -p electron/binaries/$PLATFORM
+          cp -r py/dist/* electron/binaries/$PLATFORM/
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: ${{ matrix.node-version }}
 
       - name: Install Electron dependencies
         working-directory: electron
@@ -46,100 +54,8 @@ jobs:
         working-directory: electron
         run: npm run make
 
-      - name: Upload Electron release artifact (windows)
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: electron-release-windows
-          path: electron/out/make/**/win-unpacked/**
-
-  build-macos:
-    runs-on: macos-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Setup Python 3.13
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.13
-
-      - name: Install Python dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          pip3 install pyinstaller
-
-      - name: Build Python app with spec
-        working-directory: python
-        run: |
-          pyinstaller --clean --noconfirm track.spec
-
-      - name: Copy built executable to Electron binaries (mac)
-        run: |
-          mkdir -p ../electron/binaries/mac
-          cp dist/track ../electron/binaries/mac/
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install Electron dependencies
-        working-directory: electron
-        run: npm install
-
-      - name: Build Electron app
-        working-directory: electron
-        run: npm run make
-
-      - name: Upload Electron release artifact (mac)
-        uses: actions/upload-artifact@v4
-        with:
-          name: electron-release-macos
-          path: electron/out/make/**/mac/**
-
-  build-linux:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Setup Python 3.13
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.13
-
-      - name: Install Python dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3-pip
-          pip3 install --upgrade pip
-          pip3 install pyinstaller
-
-      - name: Build Python app with spec
-        working-directory: python
-        run: |
-          pyinstaller --clean --noconfirm track.spec
-
-      - name: Copy built executable to Electron binaries (linux)
-        run: |
-          mkdir -p ../electron/binaries/linux
-          cp dist/track ../electron/binaries/linux/
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install Electron dependencies
-        working-directory: electron
-        run: npm install
-
-      - name: Build Electron app
-        working-directory: electron
-        run: npm run make
-
-      - name: Upload Electron release artifact (linux)
-        uses: actions/upload-artifact@v4
-        with:
-          name: electron-release-linux
-          path: electron/out/make/**/linux/**
+          name: electron-release-${{ matrix.os }}
+          path: electron/out/make/
