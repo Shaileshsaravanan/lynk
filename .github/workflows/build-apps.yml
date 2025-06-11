@@ -1,0 +1,145 @@
+name: Build Python Apps + Electron Packages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+
+      - name: Build Python app with spec
+        working-directory: python
+        run: |
+          pyinstaller --clean --noconfirm track.spec
+
+      - name: Copy built executable to Electron binaries (windows)
+        run: |
+          mkdir -p ../electron/binaries/win
+          copy dist\\track.exe ..\\electron\\binaries\\win\\
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Electron dependencies
+        working-directory: electron
+        run: npm install
+
+      - name: Build Electron app
+        working-directory: electron
+        run: npm run make
+
+      - name: Upload Electron release artifact (windows)
+        uses: actions/upload-artifact@v3
+        with:
+          name: electron-release-windows
+          path: electron/out/make/**/win-unpacked/**
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+
+      - name: Install Python dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install pyinstaller
+
+      - name: Build Python app with spec
+        working-directory: python
+        run: |
+          pyinstaller --clean --noconfirm track.spec
+
+      - name: Copy built executable to Electron binaries (mac)
+        run: |
+          mkdir -p ../electron/binaries/mac
+          cp dist/track ../electron/binaries/mac/
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Electron dependencies
+        working-directory: electron
+        run: npm install
+
+      - name: Build Electron app
+        working-directory: electron
+        run: npm run make
+
+      - name: Upload Electron release artifact (mac)
+        uses: actions/upload-artifact@v3
+        with:
+          name: electron-release-macos
+          path: electron/out/make/**/mac/**
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+
+      - name: Install Python dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+          pip3 install --upgrade pip
+          pip3 install pyinstaller
+
+      - name: Build Python app with spec
+        working-directory: python
+        run: |
+          pyinstaller --clean --noconfirm track.spec
+
+      - name: Copy built executable to Electron binaries (linux)
+        run: |
+          mkdir -p ../electron/binaries/linux
+          cp dist/track ../electron/binaries/linux/
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Electron dependencies
+        working-directory: electron
+        run: npm install
+
+      - name: Build Electron app
+        working-directory: electron
+        run: npm run make
+
+      - name: Upload Electron release artifact (linux)
+        uses: actions/upload-artifact@v3
+        with:
+          name: electron-release-linux
+          path: electron/out/make/**/linux/**
