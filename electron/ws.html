@@ -1,0 +1,42 @@
+<script src="static/socket.io.min.js"></script>
+<script>
+  const { ipcRenderer } = require('electron');
+
+  let client;
+  let latestLocalData = null;
+
+  ipcRenderer.send('ws');
+
+  ipcRenderer.on('ws', (event, data) => {
+    const connectionId = data.connection_id;
+    const wsURL = data.websocket_url.replace(/^https?/, 'wss');
+    client = new WebSocket(wsURL);
+
+    client.onopen = () => {
+      client.send(JSON.stringify({ type: 'init', userId: connectionId }));
+    };
+
+    client.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+        if (msg.type === 'user_connected') {
+          if (latestLocalData && client.readyState === WebSocket.OPEN) {
+            sendClientMessage(latestLocalData);
+          }
+        }
+      }
+  });
+
+  function sendClientMessage(message) {
+    if (client && client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify({ type: 'message', message }));
+    }
+  }
+
+  const socket = io('ws://localhost:5002');
+
+  socket.on('ping', (data) => {
+    latestLocalData = JSON.stringify(data);
+    sendClientMessage('Ping event received: ' + JSON.stringify(data));
+  });
+
+</script>

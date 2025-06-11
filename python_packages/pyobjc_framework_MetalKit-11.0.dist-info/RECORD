@@ -1,0 +1,11 @@
+MetalKit/_MetalKit.cpython-313-darwin.so,sha256=ghOo7Xfu2xA_bUtTu9grp8hHyLByqKcATzFQfYOJbEE,67968
+MetalKit/__init__.py,sha256=HXNTPMQmlpAyNT3c5jbTItcLFxHwb8QPm1QZB24swE8,1189
+MetalKit/__pycache__/__init__.cpython-313.pyc,,
+MetalKit/__pycache__/_metadata.cpython-313.pyc,,
+MetalKit/_metadata.py,sha256=PxGGQAiN454rlPW0kI9zpNpHWLCAHIFQOIt0Zr6ySp4,9867
+pyobjc_framework_MetalKit-11.0.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+pyobjc_framework_MetalKit-11.0.dist-info/METADATA,sha256=CL2FI3zHfdepovsEvYxeH7rQoaowdOpX3ZGoa4TQy4Y,2280
+pyobjc_framework_MetalKit-11.0.dist-info/RECORD,,
+pyobjc_framework_MetalKit-11.0.dist-info/WHEEL,sha256=BaDLO86rtLHw1JImJZ9x0AYN59zASvSeL7zhuB6KJ20,116
+pyobjc_framework_MetalKit-11.0.dist-info/pyobjc-build-info.txt,sha256=R5YEsJoyZ8GByMQk4k_4WWEg6V4RNO715NMQwx6YaNI,85
+pyobjc_framework_MetalKit-11.0.dist-info/top_level.txt,sha256=wVn-JMvt4_AKAc6WpPMQ8Kllolacq2mpPf-a87DqoCQ,9

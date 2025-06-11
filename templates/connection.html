@@ -6,7 +6,68 @@
         {% include 'sidebar.html' %}
         <div class="flex-1 overflow-y-auto p-8 md:p-12">
 
+            <div class="flex flex-col gap-2 mb-12">
+              <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-medium tracking-tight">Connection</h1>
+                <button onclick="save()" type="button" class="flex justify-between items-center text-white bg-black hover:bg-black focus:ring-4 focus:outline-none focus:ring-black font-medium rounded-lg text-sm px-3 py-1.5 text-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-save h-3 w-3 mr-2"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"></path><path d="M7 3v4a1 1 0 0 0 1 1h7"></path></svg>
+                  Save
+                </button>
+              </div>
+              <p class="text-sm text-gray-500">Configure the connection for communications</p>
+            </div>
+      
+            <div>
+              <label for="websocketUrl" class="block mb-2 text-sm font-medium text-gray-900 mt-4">WebSocket URL</label>
+              <input id="websocketUrl" class="flex w-full rounded-md border border-input px-3 py-2 ring-offset-background ring-black file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-xs h-9 bg-muted/50">
+              <span class="text-xs text-gray-500 mt-1">The WebSocket URL where your app usage data will be sent.</span>
+            </div>
+
+            <div>
+              <label for="connectionId" class="block mb-2 text-sm font-medium text-gray-900 mt-4">Connection ID</label>
+              <input id="connectionId" class="flex w-full rounded-md border border-input px-3 py-2 ring-offset-background ring-black file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-xs h-9 bg-muted/50" placeholder="Enter your connection ID">
+              <span class="text-xs text-gray-500 mt-1">Do NOT change if you're using the default server. If you do end up changing it, choose smth unique.</span>
+            </div>
+
         </div>
     </div>
   </body>
 </html>
+<script>
+
+  connectionData = {{ data | tojson }};
+
+  websocketUrlInput = document.getElementById('websocketUrl');
+  websocketUrlInput.value = connectionData.websocket_url;
+
+  connectionIdInput = document.getElementById('connectionId');
+  connectionIdInput.value = connectionData.connection_id;
+
+  async function save() {
+    const websocket_url = websocketUrlInput.value;
+    const connection_id = connectionIdInput.value;
+
+    try {
+      const response = await fetch('/update-connection', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          websocket_url,
+          connection_id
+        })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        alert("Error: " + result.error);
+      }
+    } catch (error) {
+      alert("Failed to connect to server.");
+      console.error(error);
+    }
+  }
+
+</script>

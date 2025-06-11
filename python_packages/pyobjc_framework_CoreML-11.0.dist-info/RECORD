@@ -1,0 +1,11 @@
+CoreML/_CoreML.cpython-313-darwin.so,sha256=kBE960sWkB8BkOZb7Vr52ywfGueGY8LdyyAxc4niAmU,67808
+CoreML/__init__.py,sha256=Zz2U8Tj1_FOAZ5kTGX4i3igRuaascg6twgakE2WSF4o,4198
+CoreML/__pycache__/__init__.cpython-313.pyc,,
+CoreML/__pycache__/_metadata.cpython-313.pyc,,
+CoreML/_metadata.py,sha256=AWB06kY-9FgnZgiOfWEPgbJ3w0Gn3Mhk8Y1VmbbQn1M,25946
+pyobjc_framework_CoreML-11.0.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+pyobjc_framework_CoreML-11.0.dist-info/METADATA,sha256=lyUKbkk_Dd-F9rsEr9gAiP7rUlZhsOYIQPcNNe_1XWE,2227
+pyobjc_framework_CoreML-11.0.dist-info/RECORD,,
+pyobjc_framework_CoreML-11.0.dist-info/WHEEL,sha256=BaDLO86rtLHw1JImJZ9x0AYN59zASvSeL7zhuB6KJ20,116
+pyobjc_framework_CoreML-11.0.dist-info/pyobjc-build-info.txt,sha256=R5YEsJoyZ8GByMQk4k_4WWEg6V4RNO715NMQwx6YaNI,85
+pyobjc_framework_CoreML-11.0.dist-info/top_level.txt,sha256=Uu3gkPlQDO5j-W2w8qzMWN9i2fGd__ZWct1flwsvhIc,7

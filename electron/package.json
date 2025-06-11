@@ -1,0 +1,84 @@
+{
+  "name": "lynk",
+  "version": "1.0.0",
+  "description": "A barebones Electron and Flask application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "build:css": "tailwindcss -i ./static/tailwind.css -o ./static/output.css --watch",
+    "build:css-prod": "tailwindcss -i ./static/tailwind.css -o ./static/output.css --minify",
+    "start-flask": "python app.py",
+    "start-all": "concurrently \"npm run start-flask\" \"npm run start\"",
+    "dev": "node start.js",
+    "setup": "node setup.js",
+    "package": "npm run setup && npm run build:css-prod && electron-forge package",
+    "make": "npm run setup && npm run build:css-prod && electron-forge make",
+    "dist": "npm run setup && npm run build:css-prod && electron-forge make",
+    "postinstall": "npm run setup",
+    "prod": "node main.js"
+  },
+  "keywords": [
+    "electron",
+    "flask",
+    "desktop",
+    "app"
+  ],
+  "author": "",
+  "license": "MIT",
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "icon": "assets/icon"
+      },
+      "extraResources": [
+        "./app.py",
+        "./track.py",
+        "./templates",
+        "./static",
+        "./requirements.txt",
+        "./python_packages",
+        "ws.html",
+        "config.js"
+      ],
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "lynk"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip"
+        },
+        {
+          "name": "@electron-forge/maker-deb"
+        },
+        {
+          "name": "@electron-forge/maker-rpm"
+        }
+      ]
+    }
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.8.1",
+    "@electron-forge/maker-deb": "^7.8.1",
+    "@electron-forge/maker-rpm": "^7.8.1",
+    "@electron-forge/maker-squirrel": "^7.8.1",
+    "@electron-forge/maker-zip": "^7.8.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.8.1",
+    "@electron-forge/plugin-fuses": "^7.8.1",
+    "@electron/fuses": "^1.8.0",
+    "autoprefixer": "^10.4.21",
+    "concurrently": "^8.2.2",
+    "electron": "^25.9.8",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.5"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1",
+    "fix-path": "^4.0.0",
+    "node-pre-gyp": "^0.17.0",
+    "peerjs": "^1.5.4",
+    "socket.io-client": "^4.8.1"
+  }
+}

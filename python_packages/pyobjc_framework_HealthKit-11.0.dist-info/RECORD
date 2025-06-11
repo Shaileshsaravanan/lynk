@@ -1,0 +1,11 @@
+HealthKit/_HealthKit.cpython-313-darwin.so,sha256=GikJMDrvLJyEvsou2t3YnmrShl-V7C1oVqup-lzTPsc,68744
+HealthKit/__init__.py,sha256=3TupTAAPkcCXUoaF4zEqUIfgaN49kOPRu_fVPTF6FxE,3610
+HealthKit/__pycache__/__init__.cpython-313.pyc,,
+HealthKit/__pycache__/_metadata.cpython-313.pyc,,
+HealthKit/_metadata.py,sha256=HfB2kFBXtMb32l3lpuGquXydGJFN4WVHBa-S8CRgkcQ,95079
+pyobjc_framework_HealthKit-11.0.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+pyobjc_framework_HealthKit-11.0.dist-info/METADATA,sha256=tCK0NxxSDTeLLe3XG0J8Wfo2ABGsJUgT3zpOD94orbo,2238
+pyobjc_framework_HealthKit-11.0.dist-info/RECORD,,
+pyobjc_framework_HealthKit-11.0.dist-info/WHEEL,sha256=BaDLO86rtLHw1JImJZ9x0AYN59zASvSeL7zhuB6KJ20,116
+pyobjc_framework_HealthKit-11.0.dist-info/pyobjc-build-info.txt,sha256=R5YEsJoyZ8GByMQk4k_4WWEg6V4RNO715NMQwx6YaNI,85
+pyobjc_framework_HealthKit-11.0.dist-info/top_level.txt,sha256=kZrFKkp12n0yEMN2Wly_1QeLiXC1A-EKHDatN9sB_8U,10

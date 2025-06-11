@@ -1,143 +1,209 @@
 import os
-import json
-import subprocess
 import sys
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+packages_path = os.path.join(current_dir, 'python_packages')
+sys.path.insert(0, packages_path)
+
+import json
 import base64
 import requests
-import signal
-from flask import Flask, render_template, jsonify, request
-from flask_socketio import SocketIO, emit
+from pathlib import Path
+from fastapi import FastAPI, Request, HTTPException
+from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+import uvicorn
 
-app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*", logger=True, engineio_logger=True)
+app = FastAPI()
 
-current_app_info = {}
+# CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
+# Template and static files setup
+templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Get data directory
+DATA_DIR = os.environ.get('LYNK_DATA_DIR')
+print(f"Data Directory 1app.py-->: {DATA_DIR}")
+
+
+def ensure_data_directory():
+    """Ensure the data directory exists"""
+    try:
+        Path(DATA_DIR).mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        print(f"Failed to create data directory: {e}")
+        raise
+
+
+def get_data_file_path(filename):
+    print(f"Getting data file path for {filename}")
+    print(f"Data Directory app.py -->: {DATA_DIR}")
+    return os.path.join(DATA_DIR, filename)
+
 
 def load_time_data():
-    with open("data/time.json", "r") as f:
-        return json.load(f)
-    
-def image_url_to_base64(image_url):
-    response = requests.get(image_url)
-    print(f"Image URL: {image_url}")
-    print(f"Response status code: {response.status_code}")
-    if response.status_code == 200:
-        image_data = response.content
-        print(f"Image data length: {len(image_data)}")
-        return base64.b64encode(image_data).decode('utf-8')
-    else:
-        print(f"Failed to fetch image from URL. Status code: {response.status_code}")
-        raise Exception(f"Failed to fetch image from URL. Status code: {response.status_code}")
+    try:
+        time_file = get_data_file_path("time.json")
+        if os.path.exists(time_file):
+            with open(time_file, "r") as f:
+                return json.load(f)
+        return {}
+    except Exception as e:
+        print(f"Error loading time data: {e}")
+        return {}
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+def image_url_to_base64(image_url: str) -> str:
+    try:
+        response = requests.get(image_url, timeout=10)
+        if response.status_code == 200:
+            return base64.b64encode(response.content).decode('utf-8')
+        raise HTTPException(status_code=response.status_code, detail="Failed to fetch image from URL")
+    except requests.RequestException as e:
+        raise HTTPException(status_code=500, detail=f"Image fetch error: {e}")
 
-@app.route('/tracking', methods=['GET', 'POST'])
-def tracking():
-    apps_json_path = 'data/apps.json'
 
-    if request.method == 'GET':
-        if not os.path.isfile(apps_json_path):
-            return render_template('tracking.html', apps_data={})
-        
-        with open(apps_json_path, 'r') as f:
-            apps_data = json.load(f)
-        
-        return render_template('tracking.html', apps_data=apps_data)
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
-    elif request.method == 'POST':
-        if not request.json:
-            return jsonify({"error": "No JSON data received"}), 400
 
-        updated_apps_data = request.json
+@app.get("/tracking", response_class=HTMLResponse)
+async def tracking_get(request: Request):
+    try:
+        apps_path = get_data_file_path("apps.json")
+        apps_data = {}
+        if os.path.isfile(apps_path):
+            with open(apps_path, "r") as f:
+                apps_data = json.load(f)
+                print(f"Loaded apps data: {apps_data}")
+        else:
+            print(f"No apps.json found at {apps_path}")
+        return templates.TemplateResponse("tracking.html", {"request": request, "apps_data": apps_data})
+    except Exception as e:
+        print(f"Error loading apps data: {e}")
+        return templates.TemplateResponse("tracking.html", {"request": request, "apps_data": {}}  )
 
-        if not isinstance(updated_apps_data, dict):
-            return jsonify({"error": "Invalid data format"}), 400
-        
-        with open(apps_json_path, 'w') as f:
-            json.dump(updated_apps_data, f, indent=4)
-        
-        return jsonify({"message": "apps.json updated successfully"}), 200
 
-    return render_template('tracking.html')
+@app.post("/tracking")
+async def tracking_post(apps_data: dict):
+    try:
+        ensure_data_directory()
+        apps_path = get_data_file_path("apps.json")
+        with open(apps_path, "w") as f:
+            json.dump(apps_data, f, indent=4)
+        return {"message": "apps.json updated successfully"}
+    except Exception as e:
+        print(f"Error saving apps data: {e}")
+        raise HTTPException(status_code=500, detail="Failed to update apps data")
 
-@app.route('/api/hello')
+
+@app.get("/api/hello")
 def hello():
-    return jsonify({"message": "Hello from Flask!"})
+    return {"message": "Hello from FastAPI!"}
 
-@app.route('/health')
+
+@app.get("/health")
 def health():
-    return jsonify({"status": "ok"})
+    return {"status": "ok"}
 
-@app.route('/connection')
-def connection():
-    return render_template('connection.html')
 
-@app.route('/storage')
-def storage():
-    return render_template('storage.html')
+@app.get("/connection", response_class=HTMLResponse)
+async def get_connection(request: Request):
+    connection_path = get_data_file_path("connection.json")
+    try:
+        if os.path.exists(connection_path):
+            with open(connection_path, "r") as file:
+                data = json.load(file)
+        else:
+            data = {
+                "websocket_url": "https://lynk-ws-server.onrender.com",
+                "connection_id": "default"
+            }
+        return templates.TemplateResponse("connection.html", {"request": request, "data": data})
+    except Exception as e:
+        print(f"Error loading connection data: {e}")
+        return templates.TemplateResponse("connection.html", {"request": request, "data": {}})
 
-@app.route('/settings')
-def settings():
-    return render_template('settings.html')
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
+class UpdateAppRequest(BaseModel):
+    app_name: str
+    alias: str
+    icon_url: str = None
 
-@app.route('/api/update-app', methods=['POST'])
-def api_update_alias():
-    if not request.json:
-        return jsonify({"error": "No JSON data received"}), 400
 
-    app_name = request.json.get('app_name')
-    new_alias = request.json.get('alias')
-    icon_url = request.json.get('icon_url')
+@app.post("/api/update-app")
+async def api_update_alias(data: UpdateAppRequest):
+    try:
+        apps_path = get_data_file_path("apps.json")
+        if not os.path.isfile(apps_path):
+            raise HTTPException(status_code=404, detail="apps.json not found")
 
-    if not app_name or not isinstance(new_alias, str):
-        return jsonify({"error": "Invalid input"}), 400
+        with open(apps_path, "r") as f:
+            apps_data = json.load(f)
 
-    apps_json_path = 'data/apps.json'
-    if not os.path.isfile(apps_json_path):
-        return jsonify({"error": "apps.json not found"}), 404
+        if data.app_name not in apps_data:
+            raise HTTPException(status_code=404, detail=f"App '{data.app_name}' not found")
 
-    with open(apps_json_path, 'r') as f:
-        apps_data = json.load(f)
+        if data.icon_url:
+            try:
+                icon_base64 = image_url_to_base64(data.icon_url)
+                apps_data[data.app_name]["icon"] = icon_base64
+                apps_data[data.app_name]["icon_url"] = data.icon_url
+            except HTTPException as e:
+                raise e
 
-    if app_name not in apps_data:
-        return jsonify({"error": f"App '{app_name}' not found"}), 404
-    print('icon',icon_url)
+        apps_data[data.app_name]["alias"] = data.alias
 
-    if icon_url:
-        try:
-            icon_base64 = image_url_to_base64(icon_url)
-            print(f"Icon base64: {icon_base64}")
-        except Exception as e:
-            return jsonify({"error": f"Error converting image URL to base64: {str(e)}"}), 500
-        apps_data[app_name]['icon'] = icon_base64
-        apps_data[app_name]['icon_url'] = icon_url
+        with open(apps_path, "w") as f:
+            json.dump(apps_data, f, indent=4)
 
-    apps_data[app_name]['alias'] = new_alias
+        return {"message": "success"}
+    except Exception as e:
+        print(f"Error updating app: {e}")
+        raise HTTPException(status_code=500, detail="Failed to update app")
 
-    with open(apps_json_path, 'w') as f:
-        json.dump(apps_data, f, indent=4)
 
-    return jsonify({"message": "success"}), 200
+class UpdateConnectionRequest(BaseModel):
+    websocket_url: str
+    connection_id: str
 
-def start_tracking():
-    global track_process
-    track_process = subprocess.Popen([sys.executable, 'track.py'])
-    print(f"Started track.py with PID: {track_process.pid}")
 
-def stop_tracking():
-    if track_process:
-        print(f"Stopping track.py with PID: {track_process.pid}")
-        os.kill(track_process.pid, signal.SIGTERM)
+@app.post("/update-connection")
+async def update_connection(data: UpdateConnectionRequest):
+    try:
+        ensure_data_directory()
+        connection_path = get_data_file_path("connection.json")
 
-if __name__ == '__main__':
-    start_tracking()
-    import atexit
-    atexit.register(stop_tracking)
-    app.run(debug=True, host='localhost', port=5001)
+        if os.path.exists(connection_path):
+            with open(connection_path, "r") as f:
+                existing_data = json.load(f)
+        else:
+            existing_data = {}
+
+        existing_data["websocket_url"] = data.websocket_url
+        existing_data["connection_id"] = data.connection_id
+
+        with open(connection_path, "w") as f:
+            json.dump(existing_data, f, indent=2)
+
+        return {"message": "connection.json updated", "data": existing_data}
+    except Exception as e:
+        print(f"Error updating connection: {e}")
+        raise HTTPException(status_code=500, detail="Failed to update connection")
+
+
+if __name__ == "__main__":
+    ensure_data_directory()
+    print("Starting FastAPI server at http://127.0.0.1:5001")
+    uvicorn.run("app:app", host="127.0.0.1", port=5001, reload=True)

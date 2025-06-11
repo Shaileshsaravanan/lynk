@@ -1,0 +1,12 @@
+Metal/_Metal.cpython-313-darwin.so,sha256=tRHxBXzEx_cOIUA_fhOjcpJgI9Mf7iNq1qV6s-fVY2A,184112
+Metal/__init__.py,sha256=FC6IC95ck74LODZ-ZRmSfNi8m54lEa8aTLUbt1mUuvg,911
+Metal/__pycache__/__init__.cpython-313.pyc,,
+Metal/__pycache__/_metadata.cpython-313.pyc,,
+Metal/_inlines.cpython-313-darwin.so,sha256=SuAG37OYaiOwWuU5vf62hfOa9sN8OUnFoPIFM4GjOtI,92280
+Metal/_metadata.py,sha256=DVvpd7BYwy18I8BTJrHZ2Xe0Ep2g7X2cj5GS7vJJFwI,201991
+pyobjc_framework_Metal-11.0.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+pyobjc_framework_Metal-11.0.dist-info/METADATA,sha256=d4JcxsrFozhPuy_i2wy5Dwi2u6pcuU8uthxXbRBl_2U,2223
+pyobjc_framework_Metal-11.0.dist-info/RECORD,,
+pyobjc_framework_Metal-11.0.dist-info/WHEEL,sha256=BaDLO86rtLHw1JImJZ9x0AYN59zASvSeL7zhuB6KJ20,116
+pyobjc_framework_Metal-11.0.dist-info/pyobjc-build-info.txt,sha256=R5YEsJoyZ8GByMQk4k_4WWEg6V4RNO715NMQwx6YaNI,85
+pyobjc_framework_Metal-11.0.dist-info/top_level.txt,sha256=ZhevtredTnEoMMZpTESQ7GI824pUv4TmBPQxBR7eFQs,6

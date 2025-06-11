@@ -1,0 +1,11 @@
+pyobjc_framework_libxpc-11.0.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+pyobjc_framework_libxpc-11.0.dist-info/METADATA,sha256=E6hKAQQmRVvr4X33zugV-3sLuxgPjvpgQkyyMHCVcn0,2201
+pyobjc_framework_libxpc-11.0.dist-info/RECORD,,
+pyobjc_framework_libxpc-11.0.dist-info/WHEEL,sha256=BaDLO86rtLHw1JImJZ9x0AYN59zASvSeL7zhuB6KJ20,116
+pyobjc_framework_libxpc-11.0.dist-info/pyobjc-build-info.txt,sha256=R5YEsJoyZ8GByMQk4k_4WWEg6V4RNO715NMQwx6YaNI,85
+pyobjc_framework_libxpc-11.0.dist-info/top_level.txt,sha256=aZbDrvvOSNI3aegThgpgSeKdb2l816MnVz8pJQFP2Ww,4
+xpc/__init__.py,sha256=lFmW-7rjLUbquZ70HOt3x6LdEiwNRYqqeZxxNX4uYIg,721
+xpc/__pycache__/__init__.cpython-313.pyc,,
+xpc/__pycache__/_metadata.cpython-313.pyc,,
+xpc/_metadata.py,sha256=g_XXVlMoXx7bWviAZDEKWfFHJBt2GfZlSgPPdA5oahU,22353
+xpc/_xpc.cpython-313-darwin.so,sha256=M0AcZY70ORVm9CRE0Ubrxc2vbomOqW2h-QbjhIMzt3Q,89472

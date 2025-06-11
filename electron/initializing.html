@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="static/output.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="flex items-center justify-center min-h-screen p-8">
+      <div class="w-full max-w-4xl space-y-8 text-center bg-white p-6">
+        <div class="space-y-2">
+          <div class="flex items-center justify-center mb-10">
+            <svg class="w-5 h-5 mr-2" viewBox="0 0 44 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_601_14224)">
+                    <path d="M27.2694 4.12169L23.0486 2.99072L19.4917 16.2654L16.2804 4.28093L12.0595 5.4119L15.5291 18.3602L6.88724 9.71841L3.79738 12.8083L13.2764 22.2874L1.47179 19.1243L0.34082 23.3451L13.2388 26.8011C13.0912 26.1642 13.0131 25.5006 13.0131 24.8187C13.0131 19.992 16.9258 16.0792 21.7525 16.0792C26.5792 16.0792 30.492 19.992 30.492 24.8187C30.492 25.4962 30.4148 26.1557 30.269 26.7889L41.9909 29.9297L43.1218 25.709L30.1725 22.2392L41.9779 19.0759L40.8469 14.8551L27.8981 18.3247L36.54 9.68293L33.4501 6.59307L24.1026 15.9406L27.2694 4.12169Z" fill="#FF4405"/>
+                    <path d="M30.2567 26.838C29.8948 28.368 29.1308 29.7424 28.0825 30.8435L36.5745 39.3357L39.6644 36.2458L30.2567 26.838Z" fill="#FF4405"/>
+                    <path d="M27.9968 30.9323C26.9359 32.0159 25.5951 32.8245 24.0916 33.2413L27.1817 44.7735L31.4025 43.6425L27.9968 30.9323Z" fill="#FF4405"/>
+                    <path d="M23.934 33.2835C23.2364 33.4628 22.5053 33.5581 21.7518 33.5581C20.9446 33.5581 20.1629 33.4486 19.4208 33.2437L16.3279 44.7866L20.5487 45.9175L23.934 33.2835Z" fill="#FF4405"/>
+                    <path d="M19.2715 33.2012C17.791 32.7638 16.4741 31.9448 15.4348 30.8581L6.92192 39.3711L10.0118 42.4609L19.2715 33.2012Z" fill="#FF4405"/>
+                    <path d="M15.3647 30.7829C14.3432 29.6893 13.5992 28.3333 13.2451 26.827L1.48486 29.9781L2.61582 34.1989L15.3647 30.7829Z" fill="#FF4405"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_601_14224">
+                    <rect width="44" height="44" fill="white" transform="translate(0 2)"/>
+                    </clipPath>
+                    </defs>
+            </svg>
+            <h1 class="text-sm font-medium tracking-tight">lynk</h1>
+          </div>
+          <div class="flex items-center justify-center">
+            <div role="status">
+              <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin fill-black" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+              </svg>
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <h2 class="text-xl font-medium mt-10 pt-5" id="status">Initializing lynk</h2>
+          <p class="text-sm text-gray-500 mt-2" id="substatus">
+            Please wait while we set up your tracking environment
+          </p>
+        </div>
+
+        <div class="space-y-4 pt-4 flex flex-col justify-center items-center">
+          <div class="h-1 w-full bg-gray-300 rounded" style="width: 60%;">
+            <div id="progress-bar" class="h-full bg-black rounded" style="width: 0%"></div>
+          </div>
+          <p class="text-xs text-gray-500" id="progress-text">Initializing... 0%</p>
+        </div>
+
+        <div class="pt-5">
+          <p class="text-[10px] text-gray-500">
+            lynk monitors application usage only when you're actively using your computer.<br />
+            No keystrokes or screen content is ever recorded.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+
+    let progress = 0;
+    let speed = 1;
+    let interval = null;
+    let progressStarted = false;
+    const targetProgress = 100;
+    const updateInterval = 100;
+
+    const statusEl = document.getElementById('status');
+    const substatusEl = document.getElementById('substatus');
+    const progressText = document.getElementById('progress-text');
+    const progressBar = document.getElementById('progress-bar');
+
+    function updateStatus(newProgress) {
+      if (newProgress < 25) {
+        substatusEl.textContent = "Please wait while we set up your tracking environment";
+      } else if (newProgress < 50) {
+        substatusEl.textContent = "Looking for active applications on your computer";
+      } else if (newProgress < 75) {
+        substatusEl.textContent = "Preparing data for the next steps";
+      } else if (newProgress < 100) {
+        substatusEl.textContent = "Almost there, just a moment";
+      } else {
+        substatusEl.textContent = "Redirecting";
+      }
+    }
+
+    function setProgress(value) {
+      progressBar.style.width = `${value}%`;
+      progressText.textContent = `Initializing... ${Math.round(value)}%`;
+    }
+
+    function startProgress() {
+      if (interval) clearInterval(interval);
+      interval = setInterval(() => {
+        if (progress < targetProgress) {
+          progress += speed;
+          if (progress > targetProgress) progress = targetProgress;
+          updateStatus(progress);
+          setProgress(progress);
+        } else {
+          clearInterval(interval);
+          window.location.href = "http://localhost:5001/";
+        }
+      }, updateInterval);
+    }
+
+    async function checkHealthStatus() {
+        const response = await fetch('http://localhost:5001/health');
+        const data = await response.json();
+        if (data.status === 'ok') {
+          window.location.href = "http://localhost:5001/";
+        }
+    }
+
+    window.onload = () => {
+      startProgress();
+      healthInterval = setInterval(checkHealthStatus, 1);
+    };
+    
+</script>

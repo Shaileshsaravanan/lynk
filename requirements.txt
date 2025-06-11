@@ -1,4 +1,7 @@
-flask
-pywinctl
+requests
+fastapi
+uvicorn
+pydantic
 psutil
-flask_socketio
+pywinctl
+python-socketio

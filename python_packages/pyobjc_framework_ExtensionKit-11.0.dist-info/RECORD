@@ -1,0 +1,11 @@
+ExtensionKit/_ExtensionKit.cpython-313-darwin.so,sha256=rikyS5-G8i_suzok3cDljeByjeUfK8Rd_ZHI8Trt8GU,68072
+ExtensionKit/__init__.py,sha256=ZgQ9Wpquyhqlt9QVodluEa8sJTqoxPuFfDILtz3bNug,911
+ExtensionKit/__pycache__/__init__.cpython-313.pyc,,
+ExtensionKit/__pycache__/_metadata.cpython-313.pyc,,
+ExtensionKit/_metadata.py,sha256=j1zHZF6AZXZTNho1OGRq7F9zgs2xiS0pKfS9KBmXbYc,1175
+pyobjc_framework_ExtensionKit-11.0.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+pyobjc_framework_ExtensionKit-11.0.dist-info/METADATA,sha256=Sp0rLWomWEM5pSlB79JPfTimBqQTdASoIjYs3WK1ios,2250
+pyobjc_framework_ExtensionKit-11.0.dist-info/RECORD,,
+pyobjc_framework_ExtensionKit-11.0.dist-info/WHEEL,sha256=BaDLO86rtLHw1JImJZ9x0AYN59zASvSeL7zhuB6KJ20,116
+pyobjc_framework_ExtensionKit-11.0.dist-info/pyobjc-build-info.txt,sha256=R5YEsJoyZ8GByMQk4k_4WWEg6V4RNO715NMQwx6YaNI,85
+pyobjc_framework_ExtensionKit-11.0.dist-info/top_level.txt,sha256=CNkTReFCOarLqHokGHHbxVvhqrO3X5pJn9dS8rq5Lqk,13

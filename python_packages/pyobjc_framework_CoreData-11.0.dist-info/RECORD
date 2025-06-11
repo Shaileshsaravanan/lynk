@@ -1,0 +1,14 @@
+CoreData/_CoreData.cpython-313-darwin.so,sha256=ecpl_0zOj6iSQVrMV8A8fBtUVxrsE0qo1vWLHuq0FzQ,68080
+CoreData/__init__.py,sha256=9yg_HjJ8Z0Jz6BQ5zWXgFg03KR_zXxYuiDJhKUBEvlo,1672
+CoreData/__pycache__/__init__.cpython-313.pyc,,
+CoreData/__pycache__/_convenience.cpython-313.pyc,,
+CoreData/__pycache__/_metadata.cpython-313.pyc,,
+CoreData/_convenience.py,sha256=K4AMOX8llx0APHBQgk9Mxc7sUK1-l6Sz2B3xkcK9p2o,1764
+CoreData/_metadata.py,sha256=0rOyKGvT8YD_eZ1PWqr2WlWhpwVXzM2ARr_9Zegjyh8,51256
+pyobjc_framework_CoreData-11.0.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+pyobjc_framework_CoreData-11.0.dist-info/LICENSE.txt,sha256=VBYOCJp5HziM90a14Txl68gt3y2rIJpcoZAoVkfX4Ho,1249
+pyobjc_framework_CoreData-11.0.dist-info/METADATA,sha256=px-S1kW5HcaKe37ONAgO2S7bZks2KPfVfsoEjmftKP8,2422
+pyobjc_framework_CoreData-11.0.dist-info/RECORD,,
+pyobjc_framework_CoreData-11.0.dist-info/WHEEL,sha256=BaDLO86rtLHw1JImJZ9x0AYN59zASvSeL7zhuB6KJ20,116
+pyobjc_framework_CoreData-11.0.dist-info/pyobjc-build-info.txt,sha256=R5YEsJoyZ8GByMQk4k_4WWEg6V4RNO715NMQwx6YaNI,85
+pyobjc_framework_CoreData-11.0.dist-info/top_level.txt,sha256=6cRCSiJ5-kDbx3eEep6NvyBVrvLxuOB3XRQKYwkdSfo,9
