@@ -51,7 +51,7 @@ const config = {
 
   // Application info
   appName: 'Lynk',
-  appVersion: require('../package.json').version,
+  appVersion: require('./package.json').version,
 
   // Paths
   userDataPath: app ? app.getPath('userData') : path.join(os.homedir(), '.lynk'),

@@ -12,7 +12,7 @@
     "dev": "node start.js",
     "setup": "node setup.js",
     "package": "npm run setup && npm run build:css-prod && electron-forge package",
-    "make": "npm run setup && npm run build:css-prod && electron-forge make",
+    "make": "npm run setup && electron-forge make",
     "dist": "npm run setup && npm run build:css-prod && electron-forge make",
     "postinstall": "npm run setup",
     "prod": "node main.js"
@@ -31,14 +31,7 @@
         "icon": "assets/icon"
       },
       "extraResources": [
-        "./app.py",
-        "./track.py",
-        "./templates",
-        "./static",
-        "./requirements.txt",
-        "./python_packages",
-        "ws.html",
-        "config.js"
+        "./binaries"
       ],
       "makers": [
         {

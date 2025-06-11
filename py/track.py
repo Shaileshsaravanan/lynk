@@ -106,6 +106,10 @@ def format_duration(seconds):
     seconds = int(seconds % 60)
     return f"{hours}h {minutes}m {seconds}s"
 
+def restart_server():
+    print("Restarting track.py...")
+    os.execv(sys.executable, [sys.executable] + sys.argv)
+
 async def track_active_apps():
     current_app = None
     current_app_start_time = time.time()
@@ -132,7 +136,7 @@ async def track_active_apps():
                 none_counter += 1
                 print(f"No active window detected ({none_counter}/{max_none_count})")
                 if none_counter >= max_none_count:
-                    print("Too many consecutive failures to detect active window.")
+                    restart_server()
                     none_counter = 0
                 await asyncio.sleep(1)
                 continue

@@ -1,10 +1,5 @@
 import os
 import sys
-
-current_dir = os.path.dirname(os.path.abspath(__file__))
-packages_path = os.path.join(current_dir, 'python_packages')
-sys.path.insert(0, packages_path)
-
 import json
 import base64
 import requests
@@ -17,6 +12,12 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import uvicorn
 
+# Resolve base directory for PyInstaller or normal run
+BASE_DIR = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+
+# Add bundled python_packages to sys.path
+sys.path.insert(0, os.path.join(BASE_DIR, 'python_packages'))
+
 app = FastAPI()
 
 # CORS middleware
@@ -28,10 +29,10 @@ app.add_middleware(
 )
 
 # Template and static files setup
-templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
 
-# Get data directory
+# Data directory for storing user-editable files
 DATA_DIR = os.environ.get('LYNK_DATA_DIR')
 print(f"Data Directory 1app.py-->: {DATA_DIR}")
 
@@ -92,7 +93,7 @@ async def tracking_get(request: Request):
         return templates.TemplateResponse("tracking.html", {"request": request, "apps_data": apps_data})
     except Exception as e:
         print(f"Error loading apps data: {e}")
-        return templates.TemplateResponse("tracking.html", {"request": request, "apps_data": {}}  )
+        return templates.TemplateResponse("tracking.html", {"request": request, "apps_data": {}})
 
 
 @app.post("/tracking")
@@ -206,4 +207,4 @@ async def update_connection(data: UpdateConnectionRequest):
 if __name__ == "__main__":
     ensure_data_directory()
     print("Starting FastAPI server at http://127.0.0.1:5001")
-    uvicorn.run("app:app", host="127.0.0.1", port=5001, reload=True)
+    uvicorn.run(app, host="127.0.0.1", port=5001)
