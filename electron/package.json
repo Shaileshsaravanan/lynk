@@ -1,7 +1,7 @@
 {
   "name": "lynk",
   "version": "1.0.0",
-  "description": "A barebones Electron and Flask application",
+  "description": "Track your desktop activity and display it anywhere on the web.",
   "author": "Shailesh",
   "main": "main.js",
   "scripts": {
