@@ -17,7 +17,7 @@
 
 ## 📦 Installation
 
-1. **Download the latest `.dmg` or `.zip`** from the [Releases](#) page.
+1. **Download the latest `.dmg` or `.zip`** from the [Releases](https://github.com/Shaileshsaravanan/lynk/releases) page.
 2. **Unzip or mount** the downloaded file and drag `Lynk.app` to your `/Applications` folder.
 3. Since the app is **not code-signed** (since I'm not a registered apple dev), you'll need to manually clear macOS security flags:
 
@@ -177,4 +177,4 @@ MIT License — use freely, modify, and share.
 
 ## 📬 Contact
 
-Questions, ideas, or cool uses? Reach out at \[shaileshsaravanan385@gmail.com\]([mailto:shaileshsaravanan385@gmail.com]) or open an issue!
+Questions, ideas, or cool uses? Reach out at [shaileshsaravanan385@gmail.com](mailto:shaileshsaravanan385@gmail.com) or open an issue!
