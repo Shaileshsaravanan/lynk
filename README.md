@@ -163,12 +163,6 @@ Lynk is designed with privacy in mind:
 
 ---
 
-## 👩‍💻 Contributing
-
-Pull requests, suggestions, and ideas are welcome! Please open an issue for discussion or check out the roadmap for planned features.
-
----
-
 ## 📃 License
 
 MIT License — use freely, modify, and share.
